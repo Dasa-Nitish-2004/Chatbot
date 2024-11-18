@@ -52,14 +52,19 @@ class ChatBot:
     def populate_result(self, question):
         try:
             # Retrieve relevant documents
-            relevant_docs = self.retriever.get_relevant_documents(question)
-
+            # faiss_results = self.faiss_index.similarity_search("apply for online student service in tatkal service?", k=1)
+            # print(faiss_results)
+            # relevant_docs = self.faiss_index.similarity_search(question,k=1)
             # Process retrieved documents into a structured format
+            relevant_docs = self.retriever.get_relevant_documents(question)
             result = []
+
             for doc in relevant_docs:
-                prompt = doc.page_content.split(r'?\n')[0].replace('ï»¿prompt: ', '')
-                response = doc.page_content.split('?')[1].replace('\nresponse: ', '')
+                prompt = doc.page_content.split(r'|')[0].replace('prompt: ', '')
+                response = doc.page_content.split('|')[1].replace('\nresponse: ', '')
+                print(prompt)
                 result.append({"question": prompt, "answer": response})
+
             return result
         except Exception as e:
             print(f"Error in populate_result: {e}")
@@ -69,6 +74,7 @@ class ChatBot:
         try:
             # Get relevant results
             result = self.populate_result(user_input)
+            print(result)
 
             if not result:
                 return {
@@ -94,13 +100,13 @@ class ChatBot:
 
 
 # Example Usage
-if __name__ == "__main__":
-    chatbot = ChatBot(
-        csv_path="D:\\nitish\\python\\ml\\codebasics\\chatbot\\chatbot2\\Lib\\q and a\\JNTUH_Student_Services_FAQ.csv",
-        api_key="AIzaSyAjhrUX0W18VR8yIKxKsu-8gs7qCskFf3A",
+
+    
+#     # Start the Flask app on the default port (5000)
+k =  ChatBot(csv_path=r"D:\nitish\python\ml\codebasics\chatbot\chatbot2\Lib\q and a\JNTUH_Student_Services_FAQ_updated.csv",
+        api_key="AIzaSyBAVrawMMPMRmUaXXV-mk-ujZpsbSZbtTQ",
         model_name="gemini-1.5-pro"
     )
-
-    user_question = "about JNTUH college?"
-    response = chatbot.ask_question(user_question)
-    print(response)
+user_question = "about JNTUH college?"
+response = k.ask_question(user_question)
+print(response)
