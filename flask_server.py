@@ -12,6 +12,7 @@ def chat():
         return jsonify({'error': 'No input provided'}), 400
     
     
+    
     response = cb.AskQuestion(user_input)  # Call your chatbot function
     return jsonify(response)
 
