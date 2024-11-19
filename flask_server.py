@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import CORS
-from chatbot_gemini import ChatBot
+from chatbot_sentence import ChatBot
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for the entire app (allows requests from all domains)
@@ -36,8 +36,6 @@ def chat():
 
 if __name__ == '__main__':
     # Start the Flask app on the default port (5000)
-    k =  ChatBot(csv_path=r"D:\ChatBot\python flask server\JNTUH_Student_Services_FAQ_updated.csv",
-        api_key="AIzaSyBAVrawMMPMRmUaXXV-mk-ujZpsbSZbtTQ",
-        model_name="gemini-1.5-pro"
-    )
+    k = ChatBot(csv_path=r"D:\nitish\python\ml\codebasics\chatbot\chatbot2\Lib\q and a\JNTUH_Student_Services_FAQ_updated.csv")
+
     app.run(debug=True)

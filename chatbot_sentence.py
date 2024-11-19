@@ -5,12 +5,12 @@ from sentence_transformers import SentenceTransformer
 
 
 class ChatBot:
-    def __init__(self, csv_path):
+    def __init__(self, csv_path=r"D:\nitish\python\ml\codebasics\chatbot\chatbot2\Lib\q and a\JNTUH_Student_Services_FAQ_updated.csv"):
         # Initialize attributes
         self.csv_path = csv_path
         
 
-        embedding_model = SentenceTransformer(r'D:\nitish\python\ml\codebasics\chatbot\chatbot2\Lib\q and a\fine_tuned_model',use_auth_token="")
+        embedding_model = SentenceTransformer(r'D:\nitish\python\ml\codebasics\chatbot\chatbot2\Lib\q and a\fine_tuned_model',use_auth_token="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")
 
 
         # Load data from CSV
@@ -44,7 +44,10 @@ class ChatBot:
                 prompt = doc.page_content.split('|')[0].replace('labels: 1\nsentence_1: ', '')
                 response = doc.page_content.split('|')[1].replace('\nsentence_2: ', '')
                 result.append({"question": prompt, "answer": response})
-            return result
+            return {
+                "AI" : result[0]["answer"],
+                "related_Doc" : result[1:]
+            }
         except Exception as e:
             print(f"Error in populate_result: {e}")
             return []
@@ -69,12 +72,4 @@ class ChatBot:
 
 
 
-# Example Usage
-# if __name__ == "_main_":
-chatbot = ChatBot(
-        csv_path=r"D:\nitish\python\ml\codebasics\chatbot\chatbot2\Lib\q and a\JNTUH_Student_Services_FAQ_updated.csv",
-    )
 
-user_question = "about JNTUH college?"
-response = chatbot.ask_question(user_question)
-print(response)
